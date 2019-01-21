@@ -17,6 +17,9 @@ class Post: Decodable {
     var desc: String
     var content: String
 	
+	// Not included in JSON
+	var comments	= [Comment]()
+	
 	private enum CodingKeys : String, CodingKey {
 		case postId = "id"
 		case title
@@ -27,10 +30,38 @@ class Post: Decodable {
 		case content
 	}
 	
+	func createHierarchical(from originalComments: [Comment]) {
+		let ordered		= originalComments.sorted { $0.date < $1.date }
+		let root		= ordered.filter { $0.parentId == nil }
+		let children	= ordered.filter { $0.parentId != nil }
+		
+		for aChild in children {
+			for aRoot in root {
+				if aRoot.addToChildren(comment: aChild) {
+					break
+				}
+			}
+		}
+		
+		comments	= root
+	}
+	
+	func flatComments() -> [Comment] {
+		var result	= [Comment]()
+		
+		for aComment in comments {
+			result.append(contentsOf: aComment.flatComments())
+		}
+		
+		return result
+	}
+	
 	func loadComments(from service: CloudService, completion: @escaping (Error?, [Comment]?) -> Void) -> Void {
 		service.get(endpoint: "posts/\(postId)/comments", parameters: [:], convert: false) { (error, data) in
 			if error == nil, data != nil,
 				let results = try? jsonDecoder.decode([Comment].self, from: data as! Data) {
+				self.createHierarchical(from: results)
+				
 				completion(error,results)
 			} else {
 				completion(error,nil)

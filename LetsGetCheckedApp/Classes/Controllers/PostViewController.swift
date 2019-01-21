@@ -61,7 +61,7 @@ class PostViewController: UITableViewController, UITextViewDelegate {
 		post!.loadComments(from: restService) { (error, comments) in
 			DispatchQueue.main.async {
 				if error == nil && comments != nil {
-					self.comments   = comments!
+					self.comments   = self.post!.flatComments()
 					self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
 				} else {
 					self.view.makeToast("Error: \(error?.localizedDescription ?? "")",  duration: 3.0, position: .center)

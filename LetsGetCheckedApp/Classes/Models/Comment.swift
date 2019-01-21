@@ -9,6 +9,7 @@
 import Foundation
 
 let CommentSavedNotification	= Notification.Name("CommentSavedNotification")
+let gMaxReplyLevel				= 8
 
 class Comment: Codable {
     var commentId: Int?
@@ -17,6 +18,10 @@ class Comment: Codable {
     var user: String
     var date: Date
     var content: String
+	
+	// Not included in JSON
+	var level: Int = 0
+	var children	= [Comment]()
 	
 	private enum CodingKeys : String, CodingKey {
 		case commentId = "id"
@@ -34,6 +39,38 @@ class Comment: Codable {
 		self.user		= user
 		self.date		= date
 		self.content	= content
+	}
+	
+	func addToChildren(comment: Comment) -> Bool {
+		// Check if it's our child
+		if comment.parentId == commentId {
+			
+			if level >= gMaxReplyLevel {
+				return false
+			}
+			
+			comment.level = level + 1
+			children.append(comment)
+			return true
+		}
+		
+		for child in children {
+			if child.addToChildren(comment: comment) {
+				return true
+			}
+		}
+		
+		return false
+	}
+	
+	func flatComments() -> [Comment] {
+		var result	= [self]
+		
+		for child in children {
+			result.append(contentsOf: child.flatComments())
+		}
+		
+		return result
 	}
 	
 	func edit(on service: CloudService, completion: @escaping (Error?, Any?) -> Void) {

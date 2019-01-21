@@ -254,7 +254,7 @@ Line</string>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RNQ-l1-AOe">
-                                            <rect key="frame" x="16" y="20" width="295" height="20"/>
+                                            <rect key="frame" x="16" y="20" width="343" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="Cid-sL-2xb"/>
                                             </constraints>
@@ -263,7 +263,7 @@ Line</string>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pah-pp-1kz">
-                                            <rect key="frame" x="16" y="20" width="295" height="20"/>
+                                            <rect key="frame" x="16" y="20" width="343" height="20"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="20" id="gyq-D7-BTY"/>
                                             </constraints>
@@ -286,7 +286,7 @@ Line</string>
                                         <constraint firstItem="Pah-pp-1kz" firstAttribute="trailing" secondItem="RNQ-l1-AOe" secondAttribute="trailing" id="H3x-bd-UVG"/>
                                         <constraint firstAttribute="bottom" secondItem="RNQ-l1-AOe" secondAttribute="bottom" constant="4" id="UdO-O8-sD3"/>
                                         <constraint firstItem="Pah-pp-1kz" firstAttribute="centerY" secondItem="RNQ-l1-AOe" secondAttribute="centerY" id="agQ-c0-QrK"/>
-                                        <constraint firstAttribute="trailing" secondItem="RNQ-l1-AOe" secondAttribute="trailing" constant="64" id="g4p-Bk-sO3"/>
+                                        <constraint firstAttribute="trailing" secondItem="RNQ-l1-AOe" secondAttribute="trailing" constant="16" id="g4p-Bk-sO3"/>
                                         <constraint firstItem="RNQ-l1-AOe" firstAttribute="top" secondItem="BsE-q5-Dsf" secondAttribute="bottom" constant="4" id="rvS-yl-rBd"/>
                                         <constraint firstItem="RNQ-l1-AOe" firstAttribute="leading" secondItem="BsE-q5-Dsf" secondAttribute="leading" id="wct-A8-Sc1"/>
                                     </constraints>
@@ -294,6 +294,7 @@ Line</string>
                                 <connections>
                                     <outlet property="contentLabel" destination="BsE-q5-Dsf" id="9s9-cq-328"/>
                                     <outlet property="dateLabel" destination="Pah-pp-1kz" id="skb-VS-kmB"/>
+                                    <outlet property="indentConstraint" destination="4SF-q9-EWZ" id="SaG-7A-8kg"/>
                                     <outlet property="userLabel" destination="RNQ-l1-AOe" id="9hD-H8-6bn"/>
                                 </connections>
                             </tableViewCell>

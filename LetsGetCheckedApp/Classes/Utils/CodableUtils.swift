@@ -61,24 +61,32 @@ extension Settings {
 
 extension CloudService {
 	func post<T>(endpoint: String, object: T, completion: @escaping (Error?, Any?) -> Void) -> Void where T: Encodable {
-		var request = URLRequest(url: URL(string: "\(urlProtocol)://\(serviceString)\(basePath)/\(endpoint)")!,
-								 cachePolicy: .useProtocolCachePolicy,
-								 timeoutInterval: 30.0)
-		request.httpMethod          = "POST"
-		request.allHTTPHeaderFields = headers
-		request.httpBody		    = try? jsonEncoder.encode(object)
-		
-		send(request: request, convert: false, completion: completion)
+		do {
+			var request = URLRequest(url: URL(string: "\(urlProtocol)://\(serviceString)\(basePath)/\(endpoint)")!,
+									 cachePolicy: .useProtocolCachePolicy,
+									 timeoutInterval: 30.0)
+			request.httpMethod          = "POST"
+			request.allHTTPHeaderFields = headers
+			request.httpBody		    = try jsonEncoder.encode(object)
+			
+			send(request: request, convert: false, completion: completion)
+		} catch {
+			completion(error, nil)
+		}
 	}
 	
 	func put<T>(endpoint: String, object: T, completion: @escaping (Error?, Any?) -> Void) -> Void where T: Encodable {
-		var request = URLRequest(url: URL(string: "\(urlProtocol)://\(serviceString)\(basePath)/\(endpoint)")!,
-								 cachePolicy: .useProtocolCachePolicy,
-								 timeoutInterval: 30.0)
-		request.httpMethod          = "PUT"
-		request.allHTTPHeaderFields = headers
-		request.httpBody            = try? jsonEncoder.encode(object)
-		
-		send(request: request, convert: false, completion: completion)
+		do {
+			var request = URLRequest(url: URL(string: "\(urlProtocol)://\(serviceString)\(basePath)/\(endpoint)")!,
+									 cachePolicy: .useProtocolCachePolicy,
+									 timeoutInterval: 30.0)
+			request.httpMethod          = "PUT"
+			request.allHTTPHeaderFields = headers
+			request.httpBody            = try jsonEncoder.encode(object)
+			
+			send(request: request, convert: false, completion: completion)
+		} catch {
+			completion(error, nil)
+		}
 	}
 }

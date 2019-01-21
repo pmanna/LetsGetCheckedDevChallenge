@@ -58,12 +58,17 @@ class Post: Decodable {
 	
 	func loadComments(from service: CloudService, completion: @escaping (Error?, [Comment]?) -> Void) -> Void {
 		service.get(endpoint: "posts/\(postId)/comments", parameters: [:], convert: false) { (error, data) in
-			if error == nil, data != nil,
-				let results = try? jsonDecoder.decode([Comment].self, from: data as! Data) {
-				self.createHierarchical(from: results)
-				
-				completion(error,results)
-			} else {
+			do {
+				if error == nil, data != nil {
+					let results = try jsonDecoder.decode([Comment].self, from: data as! Data)
+					
+					self.createHierarchical(from: results)
+					
+					completion(error,results)
+				} else {
+					completion(error,nil)
+				}
+			} catch {
 				completion(error,nil)
 			}
 		}
@@ -71,12 +76,17 @@ class Post: Decodable {
 	
 	class func load(from service: CloudService, completion: @escaping (Error?, [Post]?) -> Void) -> Void {
 		service.get(endpoint: "posts", parameters: [:], convert: false) { (error, data) in
-			if error == nil, data != nil,
-				var results = try? jsonDecoder.decode([Post].self, from: data as! Data) {
-				results.sort { (p1, p2) -> Bool in p1.publishDate > p2.publishDate }
-				
-				completion(error,results)
-			} else {
+			do {
+				if error == nil, data != nil {
+					var results = try jsonDecoder.decode([Post].self, from: data as! Data)
+					
+					results.sort { (p1, p2) -> Bool in p1.publishDate > p2.publishDate }
+					
+					completion(error,results)
+				} else {
+					completion(error,nil)
+				}
+			} catch {
 				completion(error,nil)
 			}
 		}

@@ -30,7 +30,7 @@ class MasterViewController: UITableViewController {
         }
 		
 		restService.urlProtocol		= "http"
-        restService.serviceString   = "localhost:9001"
+        restService.serviceString   = "localhost:9000"
     }
 
     override func viewWillAppear(_ animated: Bool) {
